@@ -22,12 +22,10 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Menú',
                 items: [
-                    { label: 'Linear Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Bar Chart', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
-                    { label: 'Pie Chart', icon: 'pi pi-fw pi-bookmark', routerLink: ['/uikit/floatlabel'] },
-                    { label: 'Doughnut Chart', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/uikit/invalidstate'] },
-                    { label: 'Polar Area Chart', icon: 'pi pi-fw pi-box', routerLink: ['/uikit/button'] },
-                    { label: 'Radar Chart', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] }
+                    { label: 'Linear Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/linear'] },
+                    { label: 'Bar Chart', icon: 'pi pi-fw pi-check-square', routerLink: ['/bar'] },
+                    { label: 'Pie Chart', icon: 'pi pi-fw pi-bookmark', routerLink: ['/pie'] },
+                    { label: 'Radar Area Chart', icon: 'pi pi-fw pi-table', routerLink: ['/radar'] }
                 ]
             }
         ];
