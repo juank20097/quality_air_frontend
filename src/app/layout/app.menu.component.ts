@@ -27,6 +27,12 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Pie Chart', icon: 'pi pi-fw pi-bookmark', routerLink: ['/pie'] },
                     { label: 'Radar Area Chart', icon: 'pi pi-fw pi-table', routerLink: ['/radar'] }
                 ]
+            },
+            {
+                label: 'Cuenta',
+                items: [
+                    { label: 'Cerrar Sesión', icon: 'pi pi-fw pi-sign-out', routerLink: ['/login'] },
+                ]
             }
         ];
     }

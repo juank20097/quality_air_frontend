@@ -6,28 +6,31 @@ import { LinearComponent } from './components/linear/linear.component';
 import { BarComponent } from './components/bar/bar.component';
 import { PieComponent } from './components/pie/pie.component';
 import { RadarComponent } from './components/radar/radar.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './auth/guard/authGuard';
 
-const routes: Routes = [
+const routes: Routes = [ 
   {
     path: '', component: AppLayoutComponent,
     children: [
       {
-        path: '', component: HomeComponent
+        path: '', component: HomeComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'linear', component: LinearComponent
+        path: 'linear', component: LinearComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'bar', component: BarComponent
+        path: 'bar', component: BarComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'pie', component: PieComponent
+        path: 'pie', component: PieComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'radar', component: RadarComponent
+        path: 'radar', component: RadarComponent, canActivate: [AuthGuard]
       },
     ],
-  }
+  },
+  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({
