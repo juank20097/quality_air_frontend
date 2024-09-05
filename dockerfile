@@ -24,4 +24,4 @@ COPY --from=build /usr/src/app/dist/plantilla-base /usr/share/nginx/html
 # configuracion de nginx dentro del directorio indicado en nginx
 COPY --from=build /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 4200
+EXPOSE 80
