@@ -28,8 +28,8 @@ export class LoginComponent {
         }
       },
       (error) => {
-        console.error('Error during authentication:', error);
-        alert('Error during authentication. Please try again.'); // Mostrar alerta en caso de error
+        console.error('Error en el consumo de servicio:', error);
+        alert('LLene todos los campos correctamente.'); // Mostrar alerta en caso de error
       }
     );
   }

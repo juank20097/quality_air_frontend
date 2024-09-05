@@ -13,11 +13,7 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <p style="margin-right: auto;">{{userIdentifier}}</p>
-        <button class="p-link layout-topbar-button" [routerLink]="['/login']">
-            <i class="pi pi-sign-out"></i>
-            <span>Profile</span>
-        </button>
+        <p style="margin-right: auto; font-size: 1.83rem;">{{userIdentifier}}</p>
         <p-confirmDialog header="Confirmación" key="confirm1" icon="pi pi-exclamation-triangle" message="Está seguro de Cerrar Sesión?"
                              [style]="{width: '350px'}" acceptButtonStyleClass="p-button-text" acceptLabel="Si" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
             <div class="grid">
