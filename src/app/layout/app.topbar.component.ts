@@ -25,16 +25,17 @@ export class AppTopBarComponent implements OnInit {
     userIdentifier: string | null = null;
 
     ngOnInit(): void {
-        if(this.authService.isLoggedIn()){
-            this.userIdentifier = this.authService.getUserIdentifier();
-        }
-    }
+      if(this.authService.isLoggedIn()){
+          this.userIdentifier = this.authService.getUser();
+      }
+  }
     
     confirm1() {
       this.confirmationService.confirm({
           key: 'confirm1',
           message: 'Está seguro de Cerrar Sesión?',
           accept: () => {
+            this.authService.logout();
             this.router.navigate(['/login']);
           },
           reject: () => {
@@ -42,14 +43,4 @@ export class AppTopBarComponent implements OnInit {
           }
       });
   }
-
-    confirmLogout() {
-        this.confirmationService.confirm({
-          message: 'Are you sure you want to log out?',
-          header: 'Logout Confirmation',
-          icon: 'pi pi-exclamation-triangle',
-          
-        });
-      }
-
 }

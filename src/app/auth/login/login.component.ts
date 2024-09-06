@@ -20,16 +20,16 @@ export class LoginComponent {
       (response) => {
         // Suponiendo que la respuesta tiene una propiedad 'status' que indica el resultado
         if (response.status === 'validPassword') {
-          localStorage.setItem('user', 'authenticated'); // Almacenar estado de autenticación
-          localStorage.setItem('identifier', this.identifier) // para la topbar del layout
+          localStorage.setItem('user',this.identifier);
+          this.authService.login();
           this.router.navigate(['/']); // Redirigir al HomeComponent
         } else {
-          alert('Invalid credentials'); // Mostrar alerta en caso de credenciales inválidas
+          alert('Credenciales Inválidas'); // Mostrar alerta en caso de credenciales inválidas
         }
       },
       (error) => {
         console.error('Error en el consumo de servicio:', error);
-        alert('LLene todos los campos correctamente.'); // Mostrar alerta en caso de error
+        alert('Llene todos los campos correctamente.'); // Mostrar alerta en caso de error
       }
     );
   }
