@@ -9,6 +9,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 /*Components*/
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -38,9 +42,12 @@ import { LoginComponent } from './auth/login/login.component';
     CheckboxModule,
     InputTextModule,
     FormsModule,
-    PasswordModule
+    PasswordModule,
+    MessagesModule, 
+    MessageModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

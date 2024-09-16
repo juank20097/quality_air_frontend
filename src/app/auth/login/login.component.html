@@ -21,7 +21,8 @@
                         </div>
                         <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Olvide mi contraseña</a>
                     </div>
-                    <button pButton pRipple label="Iniciar Sesión" class="p-element w-full p-3 text-xl p-button p-component" (click)="onSignIn()"></button>
+                    <p-toast />
+                    <p-button (onClick)="onSignIn()" label="Show" label="Iniciar Sesión" class="p-element text-xl p-button " />
                 </div>
             </div>
         </div>
