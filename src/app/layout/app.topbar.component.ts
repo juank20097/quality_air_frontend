@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
-import { AuthService } from '../auth/services/auth.service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 
@@ -20,14 +19,14 @@ export class AppTopBarComponent implements OnInit {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService, private authService: AuthService,private confirmationService: ConfirmationService, private router: Router) { }
+    constructor(public layoutService: LayoutService,private confirmationService: ConfirmationService, private router: Router) { }
 
     userIdentifier: string | null = null;
 
     ngOnInit(): void {
-      if(this.authService.isLoggedIn()){
-          this.userIdentifier = this.authService.getUser();
-      }
+      // if(this.authService.isLoggedIn()){
+      //     this.userIdentifier = this.authService.getUser();
+      // }
   }
     
     confirm1() {
@@ -35,7 +34,7 @@ export class AppTopBarComponent implements OnInit {
           key: 'confirm1',
           message: 'Está seguro de Cerrar Sesión?',
           accept: () => {
-            this.authService.logout();
+           // this.authService.logout();
             this.router.navigate(['/login']);
           },
           reject: () => {

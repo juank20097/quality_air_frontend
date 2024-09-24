@@ -20,7 +20,6 @@ import { LinearComponent } from './components/linear/linear.component';
 import { BarComponent } from './components/bar/bar.component';
 import { PieComponent } from './components/pie/pie.component';
 import { RadarComponent } from './components/radar/radar.component';
-import { LoginComponent } from './auth/login/login.component';
 
 
 @NgModule({
@@ -30,8 +29,7 @@ import { LoginComponent } from './auth/login/login.component';
     LinearComponent,
     BarComponent,
     PieComponent,
-    RadarComponent,
-    LoginComponent
+    RadarComponent
   ],
   imports: [
     BrowserModule,
