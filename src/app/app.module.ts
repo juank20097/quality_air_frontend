@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER,NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppLayoutModule } from './layout/app.layout.module'; 
 import { AppRoutingModule } from './app-routing.module';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 /*PrimeNG*/
 import { ChartModule } from 'primeng/chart'
 import { ButtonModule } from 'primeng/button';
@@ -20,7 +21,18 @@ import { LinearComponent } from './components/linear/linear.component';
 import { BarComponent } from './components/bar/bar.component';
 import { PieComponent } from './components/pie/pie.component';
 import { RadarComponent } from './components/radar/radar.component';
+import keycloakConfig from './keycloak/keycloak.conf';
 
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: keycloakConfig,
+      initOptions: {
+        onLoad: 'login-required', // Other options: 'check-sso', 'login-required'
+        checkLoginIframe: false
+      }
+    });
+}
 
 @NgModule({
   declarations: [
@@ -43,9 +55,17 @@ import { RadarComponent } from './components/radar/radar.component';
     PasswordModule,
     MessagesModule, 
     MessageModule,
-    ToastModule
+    ToastModule,
+    KeycloakAngularModule
   ],
-  providers: [MessageService],
+  providers: [MessageService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
