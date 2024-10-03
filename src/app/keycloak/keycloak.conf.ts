@@ -1,9 +1,10 @@
 import { KeycloakConfig } from 'keycloak-js';
+import { environment } from '../../environments/environment'
 
 const keycloakConfig: KeycloakConfig = {
-  url: 'http://localhost:8081',
-  realm: 'devops',
-  clientId: 'base'
+  url: environment.keycloakUrl,
+  realm: environment.keycloakReaml,
+  clientId: environment.keycloakClient
 };
 
 export default keycloakConfig;
