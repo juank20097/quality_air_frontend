@@ -1,44 +1,6 @@
 version: '3'
 
 services:
-  db:
-    image: mysql
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: root
-    ports:
-      - "3306:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
-
-  phpmyadmin:
-    image: phpmyadmin
-    container_name: phpmyadmin
-    depends_on:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - "8092:80"
-
-  air-quality-back:
-    build:
-      context: ./backend 
-    container_name: quality_air_backend
-    depends_on:
-      - db
-    restart: always
-    ports:
-      - "8080:8080"
-    environment:
-      - spring.datasource.url=jdbc:mysql://db:3306/air_quality
-      - spring.datasource.username=root
-      - spring.datasource.password=root
 
   air-quality-front:
     build:
@@ -58,8 +20,9 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
     restart: always
+    volumes:
+      - ./keycloak_init.json:/opt/keycloak/data/import/keycloak_init.json
     command: ["start-dev", "--import-realm"]
-    
 
 volumes:
   dbdata: 

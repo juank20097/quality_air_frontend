@@ -4,6 +4,7 @@ import { LayoutService } from "./service/app.layout.service";
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { environment } from '../../environments/environment'
 
 @Component({
     selector: 'app-topbar',
@@ -43,7 +44,7 @@ export class AppTopBarComponent implements OnInit {
           key: 'confirm1',
           message: 'Está seguro de Cerrar Sesión?',
           accept: () => {
-            this.keycloakService.logout('http://localhost:4200');
+            this.keycloakService.logout(environment.urlLogout);
           },
           reject: () => {
             console.log('Logout cancelled');
