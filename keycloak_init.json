@@ -5,6 +5,22 @@
   "defaultLocale": "es",
   "supportedLocales": ["es", "en"],
   "registrationAllowed": true,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "verifyEmail": true,           
+  "smtpServer": {
+    "from": "no-reply.keycloak25@zohomail.com",
+    "fromDisplayName": "Keycloak System",
+    "replyTo": "no-reply.keycloak25@zohomail.com",
+    "replyToDisplayName": "Support Team",
+    "envelopeFrom": "no-reply.keycloak25@zohomail.com",
+    "host": "smtp.zoho.com",
+    "port": "465",
+    "ssl": "true",
+    "auth": "true",
+    "user": "no-reply.keycloak25@zohomail.com",
+    "password": "Emelecjce123."
+  },
   "clients": [
     {
       "clientId": "base",
