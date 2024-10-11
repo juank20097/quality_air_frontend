@@ -1,5 +1,5 @@
 {
-  "realm": "devops",
+  "realm": "Air-Quality",
   "enabled": true,
   "internationalizationEnabled": true,
   "defaultLocale": "es",
@@ -10,7 +10,7 @@
   "verifyEmail": true,           
   "smtpServer": {
     "from": "no-reply.keycloak25@zohomail.com",
-    "fromDisplayName": "Keycloak System",
+    "fromDisplayName": "Air-Quality System ",
     "replyTo": "no-reply.keycloak25@zohomail.com",
     "replyToDisplayName": "Support Team",
     "envelopeFrom": "no-reply.keycloak25@zohomail.com",
