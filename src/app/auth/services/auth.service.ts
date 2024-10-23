@@ -9,7 +9,7 @@ export class AuthService {
 
   private isAuthenticated = false;
 
-  private authUrl = 'http://192.168.114.208:8080/user/login';
+  private authUrl = 'http://192.168.114.207/';
 
   constructor(private http: HttpClient) {}
 

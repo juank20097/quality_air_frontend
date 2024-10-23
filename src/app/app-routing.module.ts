@@ -8,6 +8,8 @@ import { PieComponent } from './components/pie/pie.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/guard/authGuard';
+import { TableComponent } from './components/table/table.component';
+
 
 const routes: Routes = [ 
   {
@@ -28,6 +30,9 @@ const routes: Routes = [
       {
         path: 'radar', component: RadarComponent, canActivate: [AuthGuard]
       },
+      {
+        path: 'table', component: TableComponent, canActivate: [AuthGuard]
+      },      
     ],
   },
   { path: 'login', component: LoginComponent },
