@@ -1,11 +1,12 @@
 export class User {
-    id!: number;
+    id!: number | null ;
     name!: string;
     lastName!: string;
-    dni!: string;
-    date!: Date;
-    email!: string;
-    nickName!: string;
+    cedula!: string;
+    fechaNacimiento!: Date | null;
+    correo!: string;
     password!: string;
     status!: boolean;
+    showPassword?: boolean;
+
 }

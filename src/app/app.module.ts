@@ -14,10 +14,10 @@ import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { DropdownModule } from 'primeng/dropdown';
-import { ProgressBarModule } from 'primeng/progressbar';
+
 import { SliderModule } from 'primeng/slider';
+import { DialogModule } from 'primeng/dialog'; // Import DialogModule
+import { ToolbarModule } from 'primeng/toolbar';
 /* Components */
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -27,7 +27,7 @@ import { PieComponent } from './components/pie/pie.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { TableComponent } from './components/table/table.component';
- 
+import { RatingModule } from 'primeng/rating';
 
 @NgModule({
   declarations: [
@@ -54,10 +54,10 @@ import { TableComponent } from './components/table/table.component';
     MessageModule,
     ToastModule,
     TableModule,
-    MultiSelectModule,
-    DropdownModule,
-    ProgressBarModule,
     SliderModule,
+    DialogModule,
+    ToolbarModule,
+    RatingModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
