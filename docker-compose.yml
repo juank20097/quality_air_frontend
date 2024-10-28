@@ -4,13 +4,13 @@ services:
     image: mysql
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "--silent"]
       interval: 30s
@@ -23,16 +23,16 @@ services:
     depends_on:
       - db
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      PMA_ARBITRARY: ${PMA_ARBITRARY}
     restart: always
     ports:
       - "8092:80"
 
+# Github: https://github.com/juank20097/quality_air_backend   ///   docker build -t quality_air_backend:latest .
   air-quality-back:
-    build:
-      context: ./backend 
+    image: quality_air_backend
     container_name: quality_air_backend
     depends_on:
       db:
@@ -41,13 +41,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - spring.datasource.url=jdbc:mysql://db:3306/air_quality
-      - spring.datasource.username=root
-      - spring.datasource.password=root
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
 
+# Github: https://github.com/juank20097/quality_air_frontend   ///   docker build -t quality_air_frontend:latest .
   air-quality-front:
-    build:
-      context: .
+    image: quality_air_frontend
     container_name: quality_air_frontend
     ports:
       - "80:80"
