@@ -16,7 +16,7 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             {
                 items: [
-                    { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                    { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
                 ]
             },
             {
@@ -25,8 +25,13 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Linear Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/linear'] },
                     { label: 'Bar Chart', icon: 'pi pi-fw pi-check-square', routerLink: ['/bar'] },
                     { label: 'Pie Chart', icon: 'pi pi-fw pi-bookmark', routerLink: ['/pie'] },
-                    { label: 'Radar Area Chart', icon: 'pi pi-fw pi-table', routerLink: ['/radar'] },
-                    { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/table'] }
+                    { label: 'Radar Area Chart', icon: 'pi pi-fw pi-table', routerLink: ['/radar'] }
+                ]
+            },
+            {
+                label: 'Usuario',
+                items: [
+                    { label: 'Crear usuario', icon: 'pi pi-fw pi-table', routerLink: ['/table'] }
                 ]
             }
         ];

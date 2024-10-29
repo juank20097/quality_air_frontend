@@ -20,11 +20,12 @@ export class TableComponent implements OnInit {
     id: null,
     name: '',
     lastName: '',
-    cedula: '',
-    fechaNacimiento: null,
-    correo: '',
+    dni: '',
+    date: null,
+    email: '',
     password: '',
-    status: true
+    status: true,
+    nickName: '',
   };
   confirmPassword: string='';
   selectedUsers: User[]=[];
@@ -45,7 +46,8 @@ export class TableComponent implements OnInit {
       { field: 'lastName', header: 'lastName' },
       { field: 'cedula', header: 'cedula' },
       { field: 'fechaNacimiento', header: 'fechaNacimiento' },
-      { field: 'password', header: 'password' }
+      { field: 'password', header: 'password' },
+      { field: 'nickName', header:'nickName'},
     ]
   }
 
@@ -69,11 +71,12 @@ export class TableComponent implements OnInit {
       id: null,
       name: '',
       lastName: '',
-      cedula: '',
-      fechaNacimiento: null,
-      correo: '',
+      dni: '',
+      date: null,
+      email: '',
       password: '',
       status: true,
+      nickName:'',
     };
     this.submitted = false;
     this.userDialog = true;
@@ -167,11 +170,12 @@ export class TableComponent implements OnInit {
     id: null,
     name: '',
     lastName: '',
-    cedula: '',
-    fechaNacimiento: null,
-    correo: '',
+    dni: '',
+    date: null,
+    email: '',
     password: '',
-    status: true
+    status: true,
+    nickName:'',
   };
 }
 
@@ -228,11 +232,12 @@ export class TableComponent implements OnInit {
         id: null,
         name: '',
         lastName: '',
-        cedula: '',
-        fechaNacimiento: null,
-        correo: '',
+        dni: '',
+        date: null,
+        email: '',
         password: '',
         status: true,
+        nickName:'',
       };
     }
   }
