@@ -114,8 +114,7 @@ export class TableComponent implements OnInit {
             this.users[index] = { ...this.users[index], status: false }; // Actualiza el status en la lista
           }
         });
-  
-        // Muestra un mensaje de éxito
+
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Users deactivated successfully', life: 3000 });
         this.loadUsers(); // Vuelve a cargar los usuarios
       }).catch(err => {
@@ -228,6 +227,7 @@ export class TableComponent implements OnInit {
       }
   
       this.userDialog = false;
+      this.confirmPassword = '';
       this.user = {
         id: null,
         name: '',

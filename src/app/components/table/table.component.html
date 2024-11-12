@@ -114,7 +114,7 @@
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.nickName">Nick name is required.</small>
                 </div>
                 <div class="field">
-                    <label for="date">Fecha Naciemiento</label>
+                    <label for="date">Fecha Nacimiento</label>
                     <input type="Date" pInputText id="date" [(ngModel)]="user.date" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.date}"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.date">Date is required.</small>
                 </div>
