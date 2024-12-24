@@ -1,0 +1,57 @@
+
+services:
+  db:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      PMA_ARBITRARY: ${PMA_ARBITRARY}
+    restart: always
+    ports:
+      - "8092:80"
+
+# Github: https://github.com/juank20097/quality_air_backend   ///   docker build -t quality_air_backend:latest .
+  air-quality-back:
+    image: quality_air_backend
+    container_name: quality_air_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+# Github: https://github.com/juank20097/quality_air_frontend   ///   docker build -t quality_air_frontend:latest .
+  air-quality-front:
+    image: quality_air_frontend
+    container_name: quality_air_frontend
+    ports:
+      - "80:80"
+
+volumes:
+  dbdata: 
+    driver: local
