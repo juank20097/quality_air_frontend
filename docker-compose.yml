@@ -10,7 +10,7 @@ services:
       - "80:80"
     depends_on:
       - keycloak
-  
+
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:25.0.1
@@ -22,8 +22,10 @@ services:
     restart: always
     volumes:
       - ./keycloak_init.json:/opt/keycloak/data/import/keycloak_init.json
-    command: ["start-dev", "--import-realm"]
+      - ./provider2-1.0.jar:/opt/keycloak/providers/provider2-1.0.jar
+      - ./users.properties:/opt/keycloak/providers/users.properties
+    command: [ "start-dev", "--import-realm" ]
 
 volumes:
-  dbdata: 
+  dbdata:
     driver: local

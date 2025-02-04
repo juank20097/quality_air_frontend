@@ -3,11 +3,13 @@
   "enabled": true,
   "internationalizationEnabled": true,
   "defaultLocale": "es",
-  "supportedLocales": ["es", "en"],
+  "supportedLocales": [
+    "es"
+  ],
   "registrationAllowed": true,
   "resetPasswordAllowed": true,
   "loginWithEmailAllowed": true,
-  "verifyEmail": true,           
+  "verifyEmail": false,
   "smtpServer": {
     "from": "no-reply.keycloak25@zohomail.com",
     "fromDisplayName": "Air-Quality System ",
