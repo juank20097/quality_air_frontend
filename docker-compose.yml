@@ -24,6 +24,8 @@ services:
       - ./keycloak_init.json:/opt/keycloak/data/import/keycloak_init.json
       - ./provider2-1.0.jar:/opt/keycloak/providers/provider2-1.0.jar
       - ./users.properties:/opt/keycloak/providers/users.properties
+      - ./koreui-20.0.6.jar:/opt/keycloak/providers/koreui-20.0.6.jar
+      - ./fairlogin:/opt/keycloak/themes/fairlogin
     command: [ "start-dev", "--import-realm" ]
 
 volumes:
