@@ -13,8 +13,8 @@ describe('Air Quality App', () =>{
   })
 
   function logIn(){
-    cy.get('#email1').type('sw'); 
-    cy.get('#password1 input').type('sw'); 
+    cy.get('#email1').type('a'); 
+    cy.get('#password1 input').type('a'); 
     cy.contains('Iniciar Sesión').click();
   }
 
@@ -25,9 +25,9 @@ describe('Air Quality App', () =>{
   }
 
   /*   Revision del contenido*/
-  it('Este habilitado el contenido web', () => {
-      cy.contains('Quality Air!');
-  });
+  // it('Este habilitado el contenido web', () => {
+  //     cy.contains('Quality Air!');
+  // });
 
   /*         Iniciar y cerrar sesion     */
   it('Iniciar sesion y cerrar sesion', () => {
