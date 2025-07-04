@@ -4,7 +4,7 @@ describe('Air Quality App', () =>{
   
 
   beforeEach(() => {
-    cy.visit('http://localhost/');
+    cy.visit('http://localhost:4200/');
     logIn();
   });
 
