@@ -18,6 +18,8 @@ import { TableModule } from 'primeng/table';
 import { SliderModule } from 'primeng/slider';
 import { DialogModule } from 'primeng/dialog'; // Import DialogModule
 import { ToolbarModule } from 'primeng/toolbar';
+import { TagModule } from 'primeng/tag';
+
 /* Components */
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -58,6 +60,7 @@ import { RatingModule } from 'primeng/rating';
     DialogModule,
     ToolbarModule,
     RatingModule,
+    TagModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
