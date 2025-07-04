@@ -196,7 +196,7 @@ describe('Air Quality App', () =>{
 
 describe('Iniciar sesion',() =>{
   it('Iniciar sesion con uno de los 20 nuevos usuarios',()=>{
-    cy.visit('http://localhost/');
+    cy.visit('http://localhost:4200/');
     cy.get('#email1').type('isimbaActualizado25@gmail.com'); 
     cy.get('#password1 input').type('12345678'); 
     cy.contains('Iniciar Sesión').click();
