@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, debounceTime } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MqttService } from 'src/app/services/mqtt.service';
+import { SensorData } from 'src/app/models/sensor-data.model';
+import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-
 
 @Component({
     selector: 'app-linear',
@@ -9,149 +11,134 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
     styleUrls: ['./linear.component.scss']
 })
 export class LinearComponent implements OnInit, OnDestroy {
+    sensorId!: string; // 'a' o 'b'
+    dato!: keyof SensorData; // 'riesgo', 'temperatura', etc.
+    deviceMap: Record<string, string> = {
+        a: 'lora32-lilygo-01',
+        b: 'lora32-lilygo-02'
+    };
+
     lineData: any;
     lineOptions: any;
-
-    subscription: Subscription;
-    intervalId: any;
     maxDataPoints = 10;
-    sensorValue: number = 0;
-    sensorStatus: string = 'success'; // success | warning | danger
-    sensorIcon: string = 'pi pi-check'; // ícono que cambia según estado
+    subscription!: Subscription;
+
+    sensorEstado: string = 'Normal';
+    sensorColor: 'success' | 'warning' | 'danger' = 'success';
+    sensorIcon: string = 'pi pi-check';
 
 
-    constructor(private layoutService: LayoutService) {
+    constructor(
+        private route: ActivatedRoute,
+        private mqttService: MqttService,
+        private layoutService: LayoutService
+    ) { }
+
+    ngOnInit(): void {
+        this.route.params.subscribe(params => {
+            this.sensorId = params['sensorId'];
+            this.dato = params['dato'];
+
+            this.initCharts();
+            this.listenToMqtt();
+        });
+
         this.subscription = this.layoutService.configUpdate$
             .pipe(debounceTime(25))
-            .subscribe((config) => {
-                this.initCharts();
-            });
-    }
-
-    ngOnInit() {
-        this.initCharts();
+            .subscribe(() => this.initCharts());
     }
 
     initCharts() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-        this.lineData = {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Sensor A',
-                    data: [],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-500'),
-                    borderColor: documentStyle.getPropertyValue('--primary-500'),
-                    tension: .4
-                },
-                {
-                    label: 'SensorB',
-                    data: [],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-200'),
-                    borderColor: documentStyle.getPropertyValue('--primary-200'),
-                    tension: .4
-                },
-                {
-                    label: 'Real-Time 3 Dataset',
-                    data: [],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-800'),
-                    borderColor: documentStyle.getPropertyValue('--primary-800'),
-                    tension: .4
-                },
-                {
-                    label: 'Real-Time 4 Dataset',
-                    data: [],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-700'),
-                    borderColor: documentStyle.getPropertyValue('--primary-700'),
-                    tension: .4
-                }
-            ]
-        };
+        const style = getComputedStyle(document.documentElement);
+        const color = style.getPropertyValue('--primary-500');
+        const textColor = style.getPropertyValue('--text-color');
+        const textColorSecondary = style.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = style.getPropertyValue('--surface-border');
 
         this.lineOptions = {
             plugins: {
                 legend: {
-                    labels: {
-                        fontColor: textColor
-                    }
+                    labels: { color: textColor }
                 }
             },
             animation: false,
             scales: {
                 x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
+                    ticks: { color: textColorSecondary },
+                    grid: { color: surfaceBorder, drawBorder: false }
                 },
                 y: {
-                    min: 1,
-                    max: 10,
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
+                    ticks: { color: textColorSecondary },
+                    grid: { color: surfaceBorder, drawBorder: false }
+                }
             }
         };
-        this.startDataSimulation();
+
+        this.lineData = {
+            labels: [],
+            datasets: [{
+                label: this.dato,
+                data: [],
+                fill: false,
+                backgroundColor: color,
+                borderColor: color,
+                tension: 0.4
+            }]
+        };
     }
 
-    startDataSimulation() {
-        this.intervalId = setInterval(() => {
-            const newValue = Math.floor(Math.random() * 10) + 1;
-            const currentTime = new Date().toLocaleTimeString();
+    listenToMqtt() {
+        this.mqttService.recibirDatos().subscribe(data => {
+            const payload = data?.payload?.uplink_message?.decoded_payload;
+            const device = data?.payload?.end_device_ids?.device_id;
 
-            const dataset = this.lineData.datasets[0];
-            dataset.data.push(newValue);
-            this.lineData.labels.push(currentTime);
+            if (!payload || device !== this.deviceMap[this.sensorId]) return;
 
-            if (dataset.data.length > this.maxDataPoints) {
-                dataset.data.shift();
+            const sensor = new SensorData(payload);
+            const value = sensor[this.dato];
+            const time = new Date().toLocaleTimeString();
+
+            if (typeof value !== 'number') return;
+
+            this.lineData.datasets[0].data.push(value);
+            this.lineData.labels.push(time);
+
+            if (this.lineData.datasets[0].data.length > this.maxDataPoints) {
+                this.lineData.datasets[0].data.shift();
                 this.lineData.labels.shift();
             }
 
-            this.sensorValue = newValue;
-
-            // Estado según valor
-            if (this.sensorValue < 6) {
-                this.sensorStatus = 'success';
+            // Forzar redibujar
+            this.lineData = { ...this.lineData };
+        });
+    }
+    actualizarEstado(valor: number) {
+        if (this.dato === 'riesgo') {
+            if (valor < 50) {
+                this.sensorEstado = 'Normal';
+                this.sensorColor = 'success';
                 this.sensorIcon = 'pi pi-check';
-            } else if (this.sensorValue >= 6 && this.sensorValue <= 8) {
-                this.sensorStatus = 'warning';
+            } else if (valor <= 75) {
+                this.sensorEstado = 'Alerta';
+                this.sensorColor = 'warning';
                 this.sensorIcon = 'pi pi-exclamation-triangle';
             } else {
-                this.sensorStatus = 'danger';
+                this.sensorEstado = 'Peligro';
+                this.sensorColor = 'danger';
                 this.sensorIcon = 'pi pi-times-circle';
             }
-
-            // Forzar la detección de cambios
-            this.lineData = { ...this.lineData };
-        }, 5000);
-
-
+        } else {
+            // Puedes agregar más lógica para temperatura, humedad, etc. si lo necesitas
+            this.sensorEstado = 'N/A';
+            this.sensorColor = 'success';
+            this.sensorIcon = 'pi pi-info-circle';
+        }
     }
 
-    ngOnDestroy() {
+
+    ngOnDestroy(): void {
         if (this.subscription) {
             this.subscription.unsubscribe();
-        }
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
         }
     }
 }

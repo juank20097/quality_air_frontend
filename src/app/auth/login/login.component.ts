@@ -26,6 +26,7 @@ export class LoginComponent {
     
     if (this.identifier == 'a' && this.password == 'a'){
       localStorage.setItem('user',this.identifier);
+      localStorage.setItem('role','admin');
           this.authService.login();
           this.router.navigate(['/']);
     }else{
@@ -33,6 +34,7 @@ export class LoginComponent {
         response => {
             if (response.status === 'validPassword') { // Cambiado a comprobar el estado
                 localStorage.setItem('user', this.identifier);
+                //localStorage.setItem('role',response.role || 'user');
                 this.router.navigate(['/']); // Redirigir al HomeComponent
                 this.authService.login();
                 this.service.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome!' });

@@ -20,12 +20,23 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Menú',
+                label: 'Sensor A',
                 items: [
-                    { label: 'Linear Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/linear'] },
-                    { label: 'Bar Chart', icon: 'pi pi-fw pi-check-square', routerLink: ['/bar'] },
-                    { label: 'Pie Chart', icon: 'pi pi-fw pi-bookmark', routerLink: ['/pie'] },
-                    { label: 'Radar Area Chart', icon: 'pi pi-fw pi-table', routerLink: ['/radar'] }
+                    { label: 'Húmedad', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/sensor', 'a', 'humedad'] },
+                    { label: 'PPM MQ6', icon: 'pi pi-fw pi-check-square', routerLink: ['/sensor', 'a', 'ppmMQ6'] },
+                    { label: 'PPM MQ7', icon: 'pi pi-fw pi-bookmark', routerLink: ['/sensor', 'a', 'ppmMQ7'] },
+                    { label: 'Riesgo', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/sensor', 'a', 'riesgo'] },
+                    { label: 'Temperatura', icon: 'pi pi-fw pi-table', routerLink: ['/sensor', 'a', 'temperatura'] }
+                ]
+            },
+            {
+                label: 'Sensor B',
+                items: [
+                    { label: 'Húmedad', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/sensor', 'b', 'humedad'] },
+                    { label: 'PPM MQ6', icon: 'pi pi-fw pi-check-square', routerLink: ['/sensor', 'b', 'ppmMQ6'] },
+                    { label: 'PPM MQ7', icon: 'pi pi-fw pi-bookmark', routerLink: ['/sensor', 'b', 'ppmMQ7'] },
+                    { label: 'Riesgo', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/sensor', 'b', 'riesgo'] },
+                    { label: 'Temperatura', icon: 'pi pi-fw pi-table', routerLink: ['/sensor', 'b', 'temperatura'] }
                 ]
             },
             {

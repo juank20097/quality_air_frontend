@@ -1,25 +1,25 @@
 <div class="grid p-fluid">
     <div class="col-12 lg:col-9">
         <div class="card">
-            <h5>Linear Chart</h5>
+            <h5>Sensor {{ sensorId.toUpperCase() }} - {{ dato | titlecase }}</h5>
             <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
         </div>
     </div>
+
     <div class="col-12 lg:col-3">
         <div class="card">
             <h5>Información</h5>
 
-            <!-- Etiqueta dinámica -->
-            <p-tag [icon]="sensorIcon" [value]="'Sensor A: ' + sensorValue" [severity]="sensorStatus"
-                class="mb-3"></p-tag>
+            <p-tag [icon]="sensorIcon" [value]="sensorEstado" [severity]="sensorColor" class="mb-3">
+            </p-tag>
 
-            <p>
-                Estado actual del sensor A basado en el último valor recibido.<br />
-                Se actualiza automáticamente cada 5 segundos.
-            </p>
+            <ng-template #genericInfo>
+                <p>
+                    Gráfico en tiempo real del valor de <strong>{{ dato }}</strong> para el sensor {{
+                    sensorId.toUpperCase() }}.<br />
+                    Últimos {{ maxDataPoints }} valores recibidos.
+                </p>
+            </ng-template>
         </div>
     </div>
-
-
-
 </div>
