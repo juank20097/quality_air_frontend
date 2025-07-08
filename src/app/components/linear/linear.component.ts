@@ -100,6 +100,8 @@ export class LinearComponent implements OnInit, OnDestroy {
 
             if (typeof value !== 'number') return;
 
+            this.actualizarEstado(value);
+
             this.lineData.datasets[0].data.push(value);
             this.lineData.labels.push(time);
 
@@ -113,27 +115,79 @@ export class LinearComponent implements OnInit, OnDestroy {
         });
     }
     actualizarEstado(valor: number) {
-        if (this.dato === 'riesgo') {
-            if (valor < 50) {
-                this.sensorEstado = 'Normal';
+        switch (this.dato) {
+            case 'riesgo':
+                if (valor < 30) {
+                    this.sensorEstado = 'Normal';
+                    this.sensorColor = 'success';
+                    this.sensorIcon = 'pi pi-check';
+                } else if (valor < 70) {
+                    this.sensorEstado = 'Alerta';
+                    this.sensorColor = 'warning';
+                    this.sensorIcon = 'pi pi-exclamation-triangle';
+                } else {
+                    this.sensorEstado = 'Peligro';
+                    this.sensorColor = 'danger';
+                    this.sensorIcon = 'pi pi-times-circle';
+                }
+                break;
+
+            case 'temperatura':
+                if (valor < 25) {
+                    this.sensorEstado = 'Normal';
+                    this.sensorColor = 'success';
+                    this.sensorIcon = 'pi pi-check';
+                } else if (valor < 30) {
+                    this.sensorEstado = 'Alerta';
+                    this.sensorColor = 'warning';
+                    this.sensorIcon = 'pi pi-exclamation-triangle';
+                } else {
+                    this.sensorEstado = 'Peligro';
+                    this.sensorColor = 'danger';
+                    this.sensorIcon = 'pi pi-times-circle';
+                }
+                break;
+
+            case 'humedad':
+                if (valor < 50) {
+                    this.sensorEstado = 'Peligro';
+                    this.sensorColor = 'danger';
+                    this.sensorIcon = 'pi pi-times-circle';
+                } else if (valor < 70) {
+                    this.sensorEstado = 'Alerta';
+                    this.sensorColor = 'warning';
+                    this.sensorIcon = 'pi pi-exclamation-triangle';
+                } else {
+                    this.sensorEstado = 'Normal';
+                    this.sensorColor = 'success';
+                    this.sensorIcon = 'pi pi-check';
+                }
+                break;
+
+            case 'ppmMQ6':
+            case 'ppmMQ7':
+                if (valor < 50) {
+                    this.sensorEstado = 'Normal';
+                    this.sensorColor = 'success';
+                    this.sensorIcon = 'pi pi-check';
+                } else if (valor < 100) {
+                    this.sensorEstado = 'Alerta';
+                    this.sensorColor = 'warning';
+                    this.sensorIcon = 'pi pi-exclamation-triangle';
+                } else {
+                    this.sensorEstado = 'Peligro';
+                    this.sensorColor = 'danger';
+                    this.sensorIcon = 'pi pi-times-circle';
+                }
+                break;
+
+            default:
+                this.sensorEstado = 'Desconocido';
                 this.sensorColor = 'success';
-                this.sensorIcon = 'pi pi-check';
-            } else if (valor <= 75) {
-                this.sensorEstado = 'Alerta';
-                this.sensorColor = 'warning';
-                this.sensorIcon = 'pi pi-exclamation-triangle';
-            } else {
-                this.sensorEstado = 'Peligro';
-                this.sensorColor = 'danger';
-                this.sensorIcon = 'pi pi-times-circle';
-            }
-        } else {
-            // Puedes agregar más lógica para temperatura, humedad, etc. si lo necesitas
-            this.sensorEstado = 'N/A';
-            this.sensorColor = 'success';
-            this.sensorIcon = 'pi pi-info-circle';
+                this.sensorIcon = 'pi pi-info-circle';
         }
     }
+
 
 
     ngOnDestroy(): void {
