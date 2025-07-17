@@ -4,21 +4,25 @@ import { AppLayoutComponent } from './layout/app.layout.component';
 import { HomeComponent } from './components/home/home.component';
 import { LinearComponent } from './components/linear/linear.component';
 import { LoginComponent } from './auth/login/login.component';
+import { TableComponent } from './components/table/table.component'; 
 import { AuthGuard } from './auth/guard/authGuard';
 
-
-const routes: Routes = [ 
+const routes: Routes = [
   {
-    path: '', component: AppLayoutComponent,
+    path: '',
+    component: AppLayoutComponent,
     children: [
+      { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+      { path: 'sensor/:sensorId/:dato', component: LinearComponent, canActivate: [AuthGuard] },
       {
-        path: '', component: HomeComponent, canActivate: [AuthGuard]
-      },
-      { path: 'sensor/:sensorId/:dato', component: LinearComponent }
-     
-    ],
+        path: 'table',
+        component: TableComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'admin' } // Solo admin puede acceder
+      }
+    ]
   },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({

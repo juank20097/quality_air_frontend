@@ -19,6 +19,8 @@ import { SliderModule } from 'primeng/slider';
 import { DialogModule } from 'primeng/dialog'; // Import DialogModule
 import { ToolbarModule } from 'primeng/toolbar';
 import { TagModule } from 'primeng/tag';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 /* Components */
 import { AppComponent } from './app.component';
@@ -30,6 +32,7 @@ import { RadarComponent } from './components/radar/radar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { TableComponent } from './components/table/table.component';
 import { RatingModule } from 'primeng/rating';
+import { Dropdown, DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -61,6 +64,8 @@ import { RatingModule } from 'primeng/rating';
     ToolbarModule,
     RatingModule,
     TagModule,
+    BrowserAnimationsModule,
+    DropdownModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

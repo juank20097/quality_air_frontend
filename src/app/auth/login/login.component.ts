@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from 'primeng/api';
-import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-login',
@@ -11,43 +10,38 @@ import { User } from 'src/app/models/user';
   providers: [MessageService]
 })
 export class LoginComponent {
-  identifier!: string; // Renombrado de email a identifier
+  identifier!: string;
   password!: string;
 
-
-  constructor(private authService: AuthService, private router: Router, private service: MessageService) {}
-
-  show() {
-    this.service.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
   onSignIn() {
-    // Llama al servicio de autenticación
-    
-    if (this.identifier == 'a' && this.password == 'a'){
-      localStorage.setItem('user',this.identifier);
-      localStorage.setItem('role','admin');
-          this.authService.login();
-          this.router.navigate(['/']);
-    }else{
-      this.authService.authenticator(this.identifier, this.password).subscribe(
-        response => {
-            if (response.status === 'validPassword') { // Cambiado a comprobar el estado
-                localStorage.setItem('user', this.identifier);
-                //localStorage.setItem('role',response.role || 'user');
-                this.router.navigate(['/']); // Redirigir al HomeComponent
-                this.authService.login();
-                this.service.add({ severity: 'success', summary: 'Login Successful', detail: 'Welcome!' });
-            } else {
-                this.service.add({ severity: 'error', summary: 'Error Message', detail: 'Credenciales Inválidas' });
-            }
-        },
-        error => {
-            // Manejo de errores de la autenticación
-            this.service.add({ severity: 'error', summary: 'Error Message', detail: 'Error en el consumo del servicio' });
-        }
-    );
+    if (!this.identifier || !this.password) {
+      this.messageService.add({ severity: 'warn', summary: 'Campos vacíos', detail: 'Debe ingresar usuario y contraseña' });
+      return;
     }
+
+    this.authService.authenticator(this.identifier, this.password).subscribe(
+      response => {
+        if (response.result === 'validPassword') {
+          localStorage.setItem('user', this.identifier);
+          localStorage.setItem('role', response.rol || 'user');
+
+          this.authService.login(); // Cambia el estado de autenticación si aplica
+          this.router.navigate(['/']); // Redirige al home o dashboard
+          this.messageService.add({ severity: 'success', summary: 'Bienvenido', detail: 'Inicio de sesión exitoso' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error de autenticación', detail: 'Credenciales inválidas' });
+        }
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error del servidor', detail: 'No se pudo iniciar sesión' });
+        console.error('Error en autenticación:', error);
+      }
+    );
   }
 }
-

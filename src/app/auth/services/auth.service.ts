@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,39 +14,52 @@ export class AuthService {
 
   /**
    * Authenticates the user with the given credentials.
-   * @param identifier The email or nickname of the user.
+   * @param identifier The username or nickname of the user.
    * @param password The user's password.
-   * @returns An observable with the login result.
+   * @returns An observable with the login result from the server.
    */
-  authenticator(identifier: string, password: string): Observable<{ status: string }> {
+  authenticator(identifier: string, password: string): Observable<{ result: string, rol: string }> {
     const params = new HttpParams()
-        .set('identifier', identifier)
-        .set('password', password);
+      .set('identifier', identifier)
+      .set('password', password);
 
-    return this.http.post<{ status: string }>(this.authUrl, null, { params });
-}
-
-
- 
+    return this.http.post<{ result: string, rol: string }>(this.authUrl, null, { params });
+  }
 
   /**
-   * Checks if the user is authenticated.
-   * @returns A boolean indicating if the user is authenticated.
+   * Marks the user as logged in (used to toggle UI states).
+   */
+  login() {
+    this.isAuthenticated = true;
+  }
+
+  /**
+   * Marks the user as logged out (used to toggle UI states).
+   */
+  logout() {
+    this.isAuthenticated = false;
+    localStorage.removeItem('user');
+    localStorage.removeItem('role');
+  }
+
+  /**
+   * Returns true if the user is authenticated.
    */
   isLoggedIn(): boolean {
     return this.isAuthenticated;
   }
 
-  login(){
-    this.isAuthenticated = true;
-  }
-
-  logout() {
-    this.isAuthenticated = false;
-  }
-
+  /**
+   * Retrieves the logged-in user's identifier from localStorage.
+   */
   getUser(): string | null {
     return localStorage.getItem('user');
   }
 
+  /**
+   * Retrieves the role of the logged-in user from localStorage.
+   */
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
 }

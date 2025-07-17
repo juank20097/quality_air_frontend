@@ -5,23 +5,31 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger"
+                            (click)="deleteSelectUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                    <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="users" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="users" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Usuarios</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
+                                class="w-full sm:w-auto" />
                         </span>
                     </div>
                 </ng-template>
@@ -33,7 +41,7 @@
                         <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="lastName">Apellido <p-sortIcon field="lastName"></p-sortIcon></th>
                         <th pSortableColumn="cedula">Cédula <p-sortIcon field="dni"></p-sortIcon></th>
-                        <th pSortableColumn="nickName">Sobrenombre <p-sortIcon field="nickName"></p-sortIcon></th>                        
+                        <th pSortableColumn="nickName">Sobrenombre <p-sortIcon field="nickName"></p-sortIcon></th>
                         <th pSortableColumn="date">Fecha de nacimiento <p-sortIcon field="date"></p-sortIcon></th>
                         <th pSortableColumn="email">Correo <p-sortIcon field="email"></p-sortIcon></th>
                         <th pSortableColumn="password">Contraseña <p-sortIcon field="password"></p-sortIcon></th>
@@ -45,7 +53,7 @@
                         <td>
                             <p-tableCheckbox [value]="user"></p-tableCheckbox>
                         </td>
-   
+
                         <td style="width:14%; min-width:10rem;">
                             <span class="p-column-title">Name</span>
                             {{user.name}}
@@ -77,13 +85,15 @@
                                 <i [class]="user.showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
                             </button>
                         </td>
-                        
-                        
-      
+
+
+
                         <td>
                             <div class="flex flex-wrap gap-2">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(user)"></button>
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteUser(user)"></button>
                             </div>
                         </td>
                     </tr>
@@ -95,53 +105,77 @@
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="user.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.name}"/>
+                    <input type="text" pInputText id="name" [(ngModel)]="user.name" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.name}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.name">Name is required.</small>
                 </div>
                 <div class="field">
                     <label for="lastName">Apellido</label>
-                    <input type="text" pInputText id="lastName" [(ngModel)]="user.lastName" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.lastName}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.lastName">Last name is required.</small>
+                    <input type="text" pInputText id="lastName" [(ngModel)]="user.lastName" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.lastName}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.lastName">Last name is
+                        required.</small>
                 </div>
                 <div class="field">
                     <label for="dni">Cédula</label>
-                    <input type="text" pInputText id="dni" [(ngModel)]="user.dni" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.dni}"/>
+                    <input type="text" pInputText id="dni" [(ngModel)]="user.dni" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.dni}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.dni">DNI is required.</small>
                 </div>
                 <div class="field">
                     <label for="nickname">Sobrenombre</label>
-                    <input type="text" pInputText id="nickname" [(ngModel)]="user.nickName" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.nickName}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.nickName">Nick name is required.</small>
+                    <input type="text" pInputText id="nickname" [(ngModel)]="user.nickName" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.nickName}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.nickName">Nick name is
+                        required.</small>
                 </div>
                 <div class="field">
                     <label for="date">Fecha Nacimiento</label>
-                    <input type="Date" pInputText id="date" [(ngModel)]="user.date" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.date}"/>
+                    <input type="Date" pInputText id="date" [(ngModel)]="user.date" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.date}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.date">Date is required.</small>
                 </div>
                 <div class="field">
                     <label for="email">Correo</label>
-                    <input type="text" pInputText id="email" [(ngModel)]="user.email" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.email}"/>
+                    <input type="text" pInputText id="email" [(ngModel)]="user.email" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.email}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.email">Email is required.</small>
                 </div>
+               <div class="field">
+  <label for="rol">Rol</label>
+<p-dropdown 
+  [options]="roles" 
+  [(ngModel)]="user.role"
+  optionLabel="rol" 
+  optionValue="id_rol"
+  placeholder="Seleccione un rol"
+  name="role"
+  [ngModelOptions]="{ standalone: true }">
+</p-dropdown>
+</div>
                 <div class="field">
                     <label for="password">Contraseña</label>
-                    <input type="password" pInputText id="password" [(ngModel)]="user.password" required autofocus 
-                           [ngClass]="{'ng-invalid ng-dirty': submitted && !user.password}" />
+                    <input type="password" pInputText id="password" [(ngModel)]="user.password" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !user.password}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.password">Password is required.</small>
                 </div>
                 <div class="field">
                     <label for="confirmPassword">Vuelva a ingresar la contraseña</label>
-                    <input type="password" pInputText id="confirmPassword" [(ngModel)]="confirmPassword" required autofocus 
-                           [ngClass]="{'ng-invalid ng-dirty': submitted && !confirmPassword}" />
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !confirmPassword">Confirmation is required.</small>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && confirmPassword !== user.password">Passwords do not match.</small>
+                    <input type="password" pInputText id="confirmPassword" [(ngModel)]="confirmPassword" required
+                        autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && !confirmPassword}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !confirmPassword">Confirmation is
+                        required.</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && confirmPassword !== user.password">Passwords
+                        do not match.</small>
                 </div>
-                
+
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
+                    (click)="saveUser()"></button>
             </ng-template>
         </p-dialog>
 
@@ -151,8 +185,10 @@
                 <span *ngIf="user">Estas seguro de eliminar el usuario <b>{{user.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteUserDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteUserDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si"
+                    (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
@@ -162,8 +198,10 @@
                 <span>Estas seguro de eliminar los usuarios seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteUsersDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteUsersDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si"
+                    (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
     </div>

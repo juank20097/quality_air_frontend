@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service'; 
+import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
-import { MessageService } from 'primeng/api'; 
+import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  providers: [MessageService] 
+  providers: [MessageService]
 })
 
 export class TableComponent implements OnInit {
-  userDialog: boolean= false;
+  userDialog: boolean = false;
   deleteUserDialog: boolean = false;
-  deleteUsersDialog:  boolean = false;
+  deleteUsersDialog: boolean = false;
   users: User[] = [];
-  user: User={
+  user: User = {
     id: null,
     name: '',
     lastName: '',
@@ -26,17 +26,26 @@ export class TableComponent implements OnInit {
     password: '',
     status: true,
     nickName: '',
+    role: {
+      id_rol: 0, rol: ''
+    }
+
   };
-  confirmPassword: string='';
-  selectedUsers: User[]=[];
-  submitted: boolean=false;
-  cols: any[]=[]
+  confirmPassword: string = '';
+  selectedUsers: User[] = [];
+  submitted: boolean = false;
+  cols: any[] = []
   statuses: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
   loading: boolean = false;
- 
 
-  constructor(private userService: UserService, private messageService: MessageService ){}
+roles = [
+  { id_rol: 1, rol: 'admin' },
+  { id_rol: 2, rol: 'visualizador' }
+];
+
+
+  constructor(private userService: UserService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.loadUsers();
@@ -47,7 +56,8 @@ export class TableComponent implements OnInit {
       { field: 'cedula', header: 'cedula' },
       { field: 'fechaNacimiento', header: 'fechaNacimiento' },
       { field: 'password', header: 'password' },
-      { field: 'nickName', header:'nickName'},
+      { field: 'nickName', header: 'nickName' },
+      { field: 'role', header: 'Rol' }
     ]
   }
 
@@ -55,8 +65,8 @@ export class TableComponent implements OnInit {
     this.loading = true;
     this.userService.getUsers().subscribe({
       next: (data) => {
-        console.log(data); 
-        this.users = data; 
+        console.log(data);
+        this.users = data;
         this.loading = false;
       },
       error: (err) => {
@@ -68,43 +78,48 @@ export class TableComponent implements OnInit {
 
   openNew() {
     this.user = {
-      id: null,
-      name: '',
-      lastName: '',
-      dni: '',
-      date: null,
-      email: '',
-      password: '',
-      status: true,
-      nickName:'',
-    };
+  id: null,
+  name: '',
+  lastName: '',
+  dni: '',
+  nickName: '',
+  date: null,
+  email: '',
+  password: '',
+  status: true,
+  role: {
+    id_rol: 2,
+    rol: 'visualizador'  // valor por defecto
+  },
+  showPassword: false
+};
     this.submitted = false;
     this.userDialog = true;
   }
 
-  deleteSelectUsers(){
+  deleteSelectUsers() {
     this.deleteUsersDialog = true;
   }
 
-  editUser(user: User){
-    this.user = {...user }
+  editUser(user: User) {
+    this.user = { ...user }
     this.userDialog = true;
   }
 
-  deleteUser(user: User){
+  deleteUser(user: User) {
     this.deleteUserDialog = true;
-    this.user = {...user}
+    this.user = { ...user }
   }
 
   confirmDeleteSelected() {
     this.deleteUsersDialog = false;
-  
+
     if (this.selectedUsers.length > 0) {
       const updateRequests = this.selectedUsers.map(selectedUser => {
         const updatedUser = { ...selectedUser, status: false }; // Crea una copia del usuario y cambia el estado
         return this.userService.updateUser(updatedUser).toPromise(); // Convierte a promesa
       });
-  
+
       // Espera a que todas las solicitudes se completen
       Promise.all(updateRequests).then(() => {
         // Actualiza la lista local de usuarios
@@ -121,64 +136,67 @@ export class TableComponent implements OnInit {
         console.error('Error al desactivar usuarios', err);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to deactivate users', life: 3000 });
       });
-  
+
       // Limpia la selección de usuarios después de que se complete la actualización
       this.selectedUsers = [];
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'No users selected', life: 3000 });
     }
   }
-  
+
   togglePasswordVisibility(user: User) {
     user.showPassword = !user.showPassword;
-}
-
-  confirmDelete() {
-  this.deleteUserDialog = false;
-
-  if (this.user.id) {
-   
-    this.user.status = false; 
-    
- 
-    this.userService.updateUser(this.user).subscribe({
-      next: () => {
-        if (this.user.id !== null) {
-          const index = this.findIndexById(this.user.id);
-    
-          if (index !== -1) {
-            this.users[index] = { ...this.users[index], status: false }; // Actualiza el status en la lista
-          }
-          
-        }
-        
-        
-        // Muestra un mensaje de éxito
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User deactivated successfully', life: 3000 });
-        this.loadUsers();
-      },
-      error: (err) => {
-        console.error('Error al desactivar usuario', err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to deactivate user', life: 3000 });
-      }
-    });
   }
 
-  // Reinicia el objeto usuario
-  this.user = {
-    id: null,
-    name: '',
-    lastName: '',
-    dni: '',
-    date: null,
-    email: '',
-    password: '',
-    status: true,
-    nickName:'',
-  };
-}
+  confirmDelete() {
+    this.deleteUserDialog = false;
 
-  
+    if (this.user.id) {
+
+      this.user.status = false;
+
+
+      this.userService.updateUser(this.user).subscribe({
+        next: () => {
+          if (this.user.id !== null) {
+            const index = this.findIndexById(this.user.id);
+
+            if (index !== -1) {
+              this.users[index] = { ...this.users[index], status: false }; // Actualiza el status en la lista
+            }
+
+          }
+
+
+          // Muestra un mensaje de éxito
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User deactivated successfully', life: 3000 });
+          this.loadUsers();
+        },
+        error: (err) => {
+          console.error('Error al desactivar usuario', err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to deactivate user', life: 3000 });
+        }
+      });
+    }
+
+    // Reinicia el objeto usuario
+    this.user = {
+      id: null,
+      name: '',
+      lastName: '',
+      dni: '',
+      date: null,
+      email: '',
+      password: '',
+      status: true,
+      nickName: '',
+      role: {
+        id_rol: 0, rol: ''
+      }
+    };
+  }
+
+
 
   hideDialog() {
     this.userDialog = false;
@@ -187,13 +205,13 @@ export class TableComponent implements OnInit {
 
   saveUser() {
     this.submitted = true;
-  
+
     // Verificar que las contraseñas coincidan antes de continuar
     if (this.user.password !== this.confirmPassword) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 });
       return; // Detener el flujo si las contraseñas no coinciden
     }
-  
+
     if (this.user.name?.trim()) {
       if (this.user.id) {
         this.userService.updateUser(this.user).subscribe({
@@ -225,7 +243,7 @@ export class TableComponent implements OnInit {
           }
         });
       }
-  
+
       this.userDialog = false;
       this.confirmPassword = '';
       this.user = {
@@ -237,20 +255,23 @@ export class TableComponent implements OnInit {
         email: '',
         password: '',
         status: true,
-        nickName:'',
+        nickName: '',
+        role: {
+          id_rol: 0, rol: ''
+        }
       };
     }
   }
-  
-  
-  
+
+
+
 
   findIndexById(id: number): number {
     let index = -1;
-    for(let i = 0; i < this.users.length; i++) {
-        if(this.users[i].id === id) {
-          index = i;
-          break;
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].id === id) {
+        index = i;
+        break;
       }
     }
     return index;

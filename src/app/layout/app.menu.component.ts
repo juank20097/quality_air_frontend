@@ -9,10 +9,13 @@ import { LayoutService } from './service/app.layout.service';
 export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
+    userRole: string | null = null;
 
     constructor(public layoutService: LayoutService) { }
 
     ngOnInit() {
+        this.userRole = localStorage.getItem('role');
+
         this.model = [
             {
                 items: [
@@ -39,12 +42,16 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Temperatura', icon: 'pi pi-fw pi-table', routerLink: ['/sensor', 'b', 'temperatura'] }
                 ]
             },
-            {
+        ];
+
+        // Solo añadir el menú de usuario si es admin
+        if (this.userRole === 'admin') {
+            this.model.push({
                 label: 'Usuario',
                 items: [
                     { label: 'Crear usuario', icon: 'pi pi-fw pi-table', routerLink: ['/table'] }
                 ]
-            }
-        ];
+            });
+        }
     }
 }
