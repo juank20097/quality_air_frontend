@@ -8,9 +8,9 @@ export class User {
     email!: string;
     password!: string;
     status!: boolean;
-    role!: {
+    rol!: {
         id_rol: number;
-        rol: string;
+        rol?: string;
     }
     showPassword?: boolean;
 }

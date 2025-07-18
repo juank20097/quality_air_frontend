@@ -26,8 +26,8 @@ export class TableComponent implements OnInit {
     password: '',
     status: true,
     nickName: '',
-    role: {
-      id_rol: 0, rol: ''
+    rol: {
+      id_rol: 0
     }
 
   };
@@ -87,9 +87,8 @@ roles = [
   email: '',
   password: '',
   status: true,
-  role: {
-    id_rol: 2,
-    rol: 'visualizador'  // valor por defecto
+  rol: {
+    id_rol: 0
   },
   showPassword: false
 };
@@ -190,8 +189,8 @@ roles = [
       password: '',
       status: true,
       nickName: '',
-      role: {
-        id_rol: 0, rol: ''
+      rol: {
+        id_rol: 0
       }
     };
   }
@@ -214,6 +213,7 @@ roles = [
 
     if (this.user.name?.trim()) {
       if (this.user.id) {
+        console.log('🟡 Enviando JSON al backend (actualizar):', this.user);  // <-- AQUÍ
         this.userService.updateUser(this.user).subscribe({
           next: (updatedUser) => {
             if (this.user.id !== null) {
@@ -231,6 +231,10 @@ roles = [
           }
         });
       } else {
+        if (typeof this.user.rol === 'number') {
+  this.user.rol = { id_rol: this.user.rol };
+}
+        console.log('🟢 Enviando JSON al backend (crear):', this.user);  // <-- AQUÍ
         this.userService.addUser(this.user).subscribe({
           next: (newUser) => {
             this.users.push(newUser);
@@ -256,8 +260,8 @@ roles = [
         password: '',
         status: true,
         nickName: '',
-        role: {
-          id_rol: 0, rol: ''
+        rol: {
+          id_rol: 0, 
         }
       };
     }

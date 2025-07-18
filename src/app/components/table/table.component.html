@@ -90,8 +90,8 @@
 
                         <td>
                             <div class="flex flex-wrap gap-2">
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
+                                <!-- <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button> -->
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                                     (click)="deleteUser(user)"></button>
                             </div>
@@ -145,7 +145,7 @@
   <label for="rol">Rol</label>
 <p-dropdown 
   [options]="roles" 
-  [(ngModel)]="user.role"
+  [(ngModel)]="user.rol"
   optionLabel="rol" 
   optionValue="id_rol"
   placeholder="Seleccione un rol"

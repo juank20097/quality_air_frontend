@@ -26,6 +26,8 @@ export class LinearComponent implements OnInit, OnDestroy {
     sensorEstado: string = 'Normal';
     sensorColor: 'success' | 'warning' | 'danger' = 'success';
     sensorIcon: string = 'pi pi-check';
+    ultimoValor: number | null = null;
+
 
 
     constructor(
@@ -99,6 +101,10 @@ export class LinearComponent implements OnInit, OnDestroy {
             const time = new Date().toLocaleTimeString();
 
             if (typeof value !== 'number') return;
+
+            if (this.ultimoValor === value) return;
+
+            this.ultimoValor = value;
 
             this.actualizarEstado(value);
 
