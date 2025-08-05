@@ -57,6 +57,25 @@ export class LinearComponent implements OnInit, OnDestroy {
         const textColorSecondary = style.getPropertyValue('--text-color-secondary');
         const surfaceBorder = style.getPropertyValue('--surface-border');
 
+      let yLabel = '';
+    switch (this.dato) {
+        case 'riesgo':
+            yLabel = 'Riesgo (%)';
+            break;
+        case 'temperatura':
+            yLabel = 'Temperatura (°C)';
+            break;
+        case 'humedad':
+            yLabel = 'Humedad (%)';
+            break;
+        case 'ppmMQ6':
+        case 'ppmMQ7':
+            yLabel = 'Partes por millón (ppm)';
+            break;
+        default:
+            yLabel = this.dato;
+    }
+
         this.lineOptions = {
             plugins: {
                 legend: {
@@ -64,17 +83,27 @@ export class LinearComponent implements OnInit, OnDestroy {
                 }
             },
             animation: false,
-            scales: {
-                x: {
-                    ticks: { color: textColorSecondary },
-                    grid: { color: surfaceBorder, drawBorder: false }
-                },
-                y: {
-                    ticks: { color: textColorSecondary },
-                    grid: { color: surfaceBorder, drawBorder: false }
+        scales: {
+            x: {
+                ticks: { color: textColorSecondary },
+                grid: { color: surfaceBorder, drawBorder: false },
+                title: {
+                    display: true,
+                    text: 'Tiempo',
+                    color: textColor
+                }
+            },
+            y: {
+                ticks: { color: textColorSecondary },
+                grid: { color: surfaceBorder, drawBorder: false },
+                title: {
+                    display: true,
+                    text: yLabel,
+                    color: textColor
                 }
             }
-        };
+        }
+    };
 
         this.lineData = {
             labels: [],
